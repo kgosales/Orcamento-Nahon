@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Roboto", sans-serif;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            row-gap: 50px;
+        }
+
+        /* --------------------- Dados Paciente --------------------- */
+
+        header {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header img {
+            width: 30%;
+        }
+
+        header h1 {
+            width: 100%;
+            text-align: center;
+            border-top: #8b8b8b 1px solid;
+            margin-top: 15px;
+            padding-top: 15px;
+            text-transform: uppercase;
+        }
+
+        /* --------------------- Dados Paciente --------------------- */
+
+        #dados_paciente {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-transform: uppercase;
+        }
+
+        .span_titulo {
+            font-weight: bold;
+        }
+
+        /* --------------------- Tabela --------------------- */
+
+        #tabela {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 5px;
+        }
+
+        thead {
+            background-color: #34a853;
+            color: #fff;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #e0f4d8;
+        }
+
+        tbody .valor {
+            text-align: center;
+        }
+
+        /* --------------------- Observações --------------------- */
+
+        #observacoes {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        #observacoes h2 {
+            margin-bottom: 10px;
+        }
+
+        #observacoes ul {
+            margin-left: 20px;
+            font-size: 12px;
+        }
+
+        /* --------------------- Endereços --------------------- */
+
+        #enderecos {
+            width: 100%;
+            display: flex;
+        }
+
+        .endereco {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .endereco h3 {
+            margin-bottom: 10px;
+        }
+
+        .endereco p {
+            font-size: 14px;
+        }
+
+        @media print {
+
+            #enderecos {
+                margin-bottom: 50px;
+            }
+
+            input {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <img src="https://saudeidv2.vtexassets.com/arquivos/ids/296371/celso-nahon-cirurgia-plastica.png?v=638122365714030000"
+            alt="Logo">
+        <h1>Orçamento</h1>
+    </header>
+
+    <section id="dados_paciente">
+        <p><span class="span_titulo">Nome do Paciente: </span><span id="nome"></span></p>
+        <p><span class="span_titulo">Cirurgia: </span><span id="cirurgia"></span></p>
+        <p><span class="span_titulo">Data: </span><span id="data"></span></p>
+    </section>
+
+    <section id="tabela">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 70%;">Descrição</th>
+                    <th style="width: 15%;">À Vista</th>
+                    <th style="width: 15%;">12x</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Hospital</td>
+                    <td class="valor" id="valorHospitalAVista"></td>
+                    <td class="valor" id="valorHospitalAPrazo">(1)*</td>
+                </tr>
+                <tr>
+                    <td>Equipe Médica</td>
+                    <td class="valor" id="valorEquipeAVista"></td>
+                    <td class="valor" id="valorEquipeAPrazo"></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="observacoes">
+        <h2>Observações:</h2>
+        <ul>
+            <li>A data da Cirurgia deve ser marcada com antecedência.</li>
+            <li>O pagamento do hospital é feito diretamente no mesmo, opções de parcelamento a serem feitas diretamente
+                com o Hospital. (1)</li>
+            <li>O valor da Equipe Médica pode ser parcelado em até 12X (acrescido a taxa de juros do cartão).</li>
+            <li>Orçamento válido por 3 meses.</li>
+        </ul>
+    </section>
+
+    <section id="enderecos">
+        <div class="endereco">
+            <h3>Copacabana</h3>
+            <p>Av. Nossa Senhora de Copacabana , 1018, Sala 305</p>
+            <p>Sala 305</p>
+            <p>+55 (21) 2287-0097 | 2287-6747 | 9 7935-0118</p>
+        </div>
+        <div class="endereco">
+            <h3>Barra da Tijuca</h3>
+            <p>Centro Empresarial do Barra Shopping</p>
+            <p>Av. das Américas 4200, Bl 9, Sala 201, Ala A</p>
+            <p>+55 (21) 9 8112-7469</p>
+        </div>
+    </section>
+
+    <input type="button" onclick="window.print();" value="Imprimir" />
+
+    <script>
+        const formatarMoeda = (valor) => {
+            return new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }).format(valor);
+        };
+
+        onload = () => {
+            const orcamento = JSON.parse(localStorage.getItem('orcamento'));
+
+            if (orcamento) {
+                document.getElementById('nome').textContent = orcamento.paciente.nome;
+
+                const cirurgias = orcamento.cirurgias.cirurgias.map(cirurgia => cirurgia.cirurgia);
+                const cirurgia = cirurgias.join(' + ');
+                document.getElementById('cirurgia').textContent = cirurgia;
+
+                const data = new Date(orcamento.paciente.data);
+                const dataFormatada = data.toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                });
+                document.getElementById('data').textContent = dataFormatada;
+
+                document.getElementById('valorHospitalAVista').textContent = formatarMoeda(orcamento.cirurgias.valorTotal);
+                document.getElementById('valorEquipeAVista').textContent = formatarMoeda(orcamento.equipe.valorTotal);
+
+                window.print();
+            } else {
+                console.error('Orçamento não encontrado no localStorage.');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

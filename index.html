@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orçamento</title>
+    <!-- <?!= HtmlService.createHtmlOutputFromFile("styles-css").getContent();?> -->
+    <link rel="stylesheet" href="styles-css.css">
+</head>
+
+<body>
+    <h1>Orçamento</h1>
+
+    <form onchange="calcularTotal()">
+        <div id="dadosPaciente">
+            <h2>Dados do Paciente</h2>
+            <div id="inputs-paciente">
+                <div class="box-input">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome">
+                </div>
+                <div class="box-input">
+                    <label for="data">Data do Orçamento</label>
+                    <input type="date" id="data" name="data">
+                </div>
+            </div>
+        </div>
+
+        <div id="dadosCirurgia">
+            <div id="header_cirurgia">
+                <h2>Dados da Cirurgia</h2>
+                <p id="add-cirurgia-btn">+ 1 Cirurgia</p>
+            </div>
+
+            <div id="cirurgias">
+                Adição Dinâmica
+            </div>
+        </div>
+
+        <div id="dadosEquipe" onchange="calcularEquipe()">
+            <h2>Dados da Equipe</h2>
+            <div id="inputs-equipe">
+                <div class="box-input">
+                    <label for="equipe">Valor da Equipe</label>
+                    <input type="number" id="valorEquipe" name="equipe">
+                </div>
+                <div class="box-input">
+                    <label for="formaPagamento">Forma de Pagamento</label>
+                    <select name="formaPagamento" id="formaPagamento"
+                        onchange="inserirDados('#porcentagemTaxa', (this.value * 100).toFixed(2))">
+                        Adição Dinâmica
+                    </select>
+                </div>
+                <div class="box-resultado">
+                    <p class="titulo-resultado">Taxa de Juros</p>
+                    <p class="valor-resultado"><span id="porcentagemTaxa">0</span>%</p>
+                </div>
+                <div class="box-input">
+                    <label for="ajustes">Taxa de Ajustes</label>
+                    <input type="number" id="taxaAjustes" name="ajustes">
+                </div>
+            </div>
+            <div id="valores-equipe">
+                <div class="box-resultado">
+                    <p class="titulo-resultado">Valor Real</p>
+                    <p class="valor-resultado" id="valorReal"></p>
+                </div>
+                <div class="box-resultado">
+                    <p class="titulo-resultado">Valor Niohn</p>
+                    <p class="valor-resultado" id="valorMarcele"></p>
+                </div>
+                <div class="box-resultado">
+                    <p class="titulo-resultado">Total da Equipe</p>
+                    <p class="valor-resultado" id="totalEquipe"></p>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <section id="resultado">
+        <h2>Total</h2>
+        <p id="resultado-total"></p>
+    </section>
+
+    <button onclick="gerarOrcamento()">Gerar Orçamento</button>
+
+    <!-- <?!= HtmlService.createHtmlOutputFromFile("database").getContent();?>
+    <?!= HtmlService.createHtmlOutputFromFile("scripts-interface").getContent();?>
+    <?!= HtmlService.createHtmlOutputFromFile("scripts-js").getContent();? -->
+
+    <script src="database.js"></script>
+    <script src="scripts-js.js"></script>
+    <script src="scripts-interface.js"></script>
+
+    <script>
+        montarSelect("#formaPagamento", DBModule.formasPagamento, "taxa", "forma");
+
+        const gerarOrcamento = () => {
+            const dados = obterDados();
+
+            console.log(dados);
+
+            localStorage.setItem('orcamento', JSON.stringify(dados));
+            window.location.href = 'orcamento.html';
+        };
+    </script>
+
+</body>
+
+</html>

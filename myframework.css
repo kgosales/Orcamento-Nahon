@@ -1,0 +1,46 @@
+/* ---------------------------- FRAMEWORK ---------------------------- */
+.flex-ac-jc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-ac-jsa {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.flex-ac-jsb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.flex-ac-jse {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.box-input {
+  height: 73px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+.box-resultado {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 5px;
+  padding: 10px 0px;
+  border-radius: 5px;
+  background-color: #34a853;
+  font-weight: bold;
+  color: white;
+}
+.box-resultado .titulo-resultado {
+  font-size: 12px;
+}
+.box-resultado .valor-resultado {
+  font-size: 28px;
+  height: 34px;
+}
