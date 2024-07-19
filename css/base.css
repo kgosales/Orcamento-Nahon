@@ -18,6 +18,9 @@ body {
   row-gap: 25px;
 }
 /* ---------------------------- FRAMEWORK ---------------------------- */
+h1 {
+  font-size: 48px;
+}
 .container {
   width: 100%;
   max-width: 1100px;
