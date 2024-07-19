@@ -1,0 +1,259 @@
+@import "base.less";
+
+header {
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    padding: 10px 0;
+    background: linear-gradient(90deg, @color1 0%, rgba(255, 255, 255, 1) 70%);
+
+    img {
+        width: 180px;
+    }
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+    flex-grow: 1;
+
+    form {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        row-gap: 20px;
+    }
+}
+
+/* --------------------- Dados Paciente --------------------- */
+
+#dadosPaciente {
+
+    #inputs-paciente {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        column-gap: 30px;
+
+        .box-input {
+
+            &:nth-of-type(1) {
+                width: 70%;
+            }
+
+            &:nth-of-type(2) {
+                width: 30%;
+            }
+        }
+    }
+}
+
+/* --------------------- Dados Cirurgia --------------------- */
+
+#dadosCirurgia {
+
+    #header_cirurgia {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #cirurgias {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        row-gap: 20px;
+
+        .cirurgia {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            row-gap: 20px;
+
+            .input-cirurgia {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+
+                select {
+                    width: 70%;
+                    height: 34px;
+                    border-radius: 5px;
+                    padding: 0px 10px;
+                    border: solid 1px grey;
+                }
+
+                .btn-detalhes {
+                    width: 140px;
+                    height: 34px;
+                }
+
+                .btn-delete {
+                    width: 34px;
+                    height: 34px;
+                    padding: 0;
+                    border: solid 1px red;
+                    border-radius: 50%;
+                    color: red;
+                    font-weight: bold;
+                    line-height: 34px;
+
+                    &:hover {
+                        background-color: red;
+                        color: white;
+                    }
+                }
+            }
+
+            .detalhes-cirurgia {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-around;
+                gap: 20px;
+                height: 0;
+                overflow: hidden;
+                transition: height 0.5s ease-out;
+
+                &.active {
+                    height: 200px;
+                }
+
+                .detalhes-valor {
+                    width: 100%;
+                    display: flex;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                    gap: 40px;
+
+                    table {
+                        border-collapse: collapse;
+                        font-size: 12px;
+
+                        th {
+                            text-align: center;
+                            font-weight: bold;
+                            background-color: #34a853;
+                            color: white;
+                            padding: 8px;
+                        }
+
+                        .sub-title-table {
+                            text-align: center;
+                            font-weight: bold;
+                            background-color: #a8ecba;
+                            color: black;
+                            padding: 5px;
+                        }
+
+                        td {
+                            padding: 5px;
+                        }
+
+                        .td-center {
+                            text-align: center;
+                        }
+
+                        &:nth-of-type(1) {
+                            width: 40%;
+                        }
+
+                        &:nth-of-type(2) {
+                            width: 60%;
+                        }
+                    }
+                }
+
+                p {
+                    width: 50%;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    background-color: #34a853;
+                    color: white;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+
+
+/* --------------------- Dados Equipe --------------------- */
+
+#dadosEquipe {
+
+    #inputs-equipe {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        row-gap: 20px;
+
+        .box-input {
+            width: 200px;
+            align-items: center;
+            justify-content: center;
+
+            input {
+                width: 80%;
+                height: 34px;
+                padding: 0px 10px;
+                border: none;
+                border-bottom: solid 3px #34a853;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            select {
+                width: 80%;
+                height: 34px;
+                border-radius: 5px;
+                padding: 0px 10px;
+                border: solid 1px grey;
+            }
+        }
+    }
+
+    #valores-equipe {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 20px 0px;
+    }
+}
+
+#resultado {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+        font-weight: bold;
+        font-size: 50px;
+        color: #34a853;
+    }
+}
+
+footer {
+    width: 100%;
+    background-color: @color1;
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+}
