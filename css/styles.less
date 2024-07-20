@@ -75,120 +75,43 @@ main {
         .cirurgia {
             width: 100%;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            row-gap: 20px;
+            column-gap: 20px;
 
-            .input-cirurgia {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: space-around;
-
-                select {
-                    width: 70%;
-                    height: 34px;
-                    border-radius: 5px;
-                    padding: 0px 10px;
-                    border: solid 1px grey;
-                }
-
-                .btn-detalhes {
-                    width: 140px;
-                    height: 34px;
-                }
-
-                .btn-delete {
-                    width: 34px;
-                    height: 34px;
-                    padding: 0;
-                    border: solid 1px red;
-                    border-radius: 50%;
-                    color: red;
-                    font-weight: bold;
-                    line-height: 34px;
-
-                    &:hover {
-                        background-color: red;
-                        color: white;
-                    }
-                }
+            select{
+                flex-grow: 1;
+            }
+            
+            .valor-cirurgia {
+                width: 105px;
+                height: 34px;
+                line-height: 34px;
+                padding: 0 10px;
+                border-radius: 5px;
+                background-color: @color1;
+                text-align: center;
+                vertical-align: middle;
+                color: white;
+                font-weight: bold;
             }
 
-            .detalhes-cirurgia {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: space-around;
-                gap: 20px;
-                height: 0;
-                overflow: hidden;
-                transition: height 0.5s ease-out;
+            .btn-delete {
+                width: 34px;
+                height: 34px;
+                padding: 0;
+                border: solid 2px red;
+                border-radius: 50%;
+                color: red;
 
-                &.active {
-                    height: 200px;
-                }
-
-                .detalhes-valor {
-                    width: 100%;
-                    display: flex;
-                    align-items: flex-start;
-                    justify-content: space-between;
-                    gap: 40px;
-
-                    table {
-                        border-collapse: collapse;
-                        font-size: 12px;
-
-                        th {
-                            text-align: center;
-                            font-weight: bold;
-                            background-color: #34a853;
-                            color: white;
-                            padding: 8px;
-                        }
-
-                        .sub-title-table {
-                            text-align: center;
-                            font-weight: bold;
-                            background-color: #a8ecba;
-                            color: black;
-                            padding: 5px;
-                        }
-
-                        td {
-                            padding: 5px;
-                        }
-
-                        .td-center {
-                            text-align: center;
-                        }
-
-                        &:nth-of-type(1) {
-                            width: 40%;
-                        }
-
-                        &:nth-of-type(2) {
-                            width: 60%;
-                        }
-                    }
-                }
-
-                p {
-                    width: 50%;
-                    padding: 5px 10px;
-                    border-radius: 5px;
-                    background-color: #34a853;
+                &:hover {
+                    background-color: red;
                     color: white;
-                    text-align: center;
                 }
             }
         }
     }
 }
-
 
 /* --------------------- Dados Equipe --------------------- */
 
@@ -216,14 +139,6 @@ main {
                 &:focus {
                     outline: none;
                 }
-            }
-
-            select {
-                width: 80%;
-                height: 34px;
-                border-radius: 5px;
-                padding: 0px 10px;
-                border: solid 1px grey;
             }
         }
     }

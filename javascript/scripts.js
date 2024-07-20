@@ -1,7 +1,12 @@
 const obterDados = () => {
     const dados = {
         paciente: {},
-        cirurgias: {},
+        cirurgias: {
+            adicionais: {
+                anestesia: 500,
+                horaExtra: 500,
+            }
+        },
         equipe: {},
         valorTotal: 0,
     };
@@ -21,22 +26,12 @@ const obterDados = () => {
     dados.cirurgias.somaCirurgias = CirurgiaDataModule.somarCirurgias(dados.cirurgias.cirurgias);
     dados.cirurgias.somaItensCirurgias = dados.cirurgias.cirurgias.reduce((acc, cir) => acc + cir.somaItens, 0);
 
-    dados.cirurgias.adicionais = {
-        anestesia: 500,
-        horaExtra: 300,
-    }
-
-    dados.cirurgias.valorTotal = dados.cirurgias.somaCirurgias + dados.cirurgias.somaItensCirurgias + dados.cirurgias.adicionais.anestesia + dados.cirurgias.adicionais.horaExtra;
-
     // EQUIPE
     dados.equipe.valor = parseFloat(
         document.querySelector("#valorEquipe")?.value || 0
     );
     dados.equipe.taxaPagamento = parseFloat(
         document.querySelector("#formaPagamento")?.value || 0
-    );
-    dados.equipe.taxaAjustes = parseFloat(
-        document.querySelector("#taxaAjustes")?.value || 0
     );
 
     dados.equipe.valorTotal = calcularEquipe(dados.equipe.valor, dados.equipe.taxaPagamento);
@@ -49,58 +44,42 @@ const obterDados = () => {
 // Módulo de Dados de Cirurgias
 const CirurgiaDataModule = (() => {
     const obterCirurgia = (idCirurgia) => {
-        const cirurgia = DBModule.cirurgias.find(cir => cir.id === idCirurgia);
 
-        if (!cirurgia) {
-            console.error(`Cirurgia com id ${idCirurgia} não encontrada.`);
-            return null;
+        if (!idCirurgia) {
+            throw new Error("Cirurgia não encontrada para o ID fornecido.");
         }
 
-        const itensPosCirurgia = obterItensCirurgicos(cirurgia.itensPosCirurgia);
-        const somaItens = itensPosCirurgia.reduce((total, item) => total + (item.valor * item.quantidade), 0);
-        const somaCirurgia = cirurgia.avista + somaItens;
-
-        return { ...cirurgia, itensPosCirurgia, somaItens, somaCirurgia };
+        return DBModule.cirurgias.find(cir => cir.id === idCirurgia);
     };
 
-    const obterItensCirurgicos = (itens) => {
-        return itens.map(item => {
-            const query = DBModule.itensPosCirurgia.find(itensPos => itensPos.id === item.id);
+    // const somarCirurgias = (cirurgias) => {
+    //     if (!cirurgias || cirurgias.length === 0) {
+    //         throw new Error("Nenhuma cirurgia encontrada ou array vazio.");
+    //     }
 
-            if (!query) {
-                console.error(`Item pós-cirúrgico com id ${item.id} não encontrado.`);
-                return null;
-            }
+    //     const maiorNumero = Math.max(...cirurgias.map(cirurgia => cirurgia.avista));
+    //     const somaDemaisElementos = cirurgias.reduce((total, cirurgia) => {
+    //         if (cirurgia.avista !== maiorNumero) {
+    //             return total + cirurgia.avista;
+    //         }
+    //         return total;
+    //     }, 0);
 
-            return {
-                id: query.id,
-                item: query.item,
-                valor: query.valor,
-                quantidade: item.quantidade,
-            };
-        }).filter(item => item !== null); // Filtra itens não encontrados
-    };
+    //     return maiorNumero + somaDemaisElementos / 2;
+    // };
 
     const somarCirurgias = (cirurgias) => {
         if (!cirurgias || cirurgias.length === 0) {
-            console.error(`Cirurgias não encontradas ou array vazio.`);
-            return null;
+            throw new Error("Nenhuma cirurgia encontrada ou array vazio.");
         }
 
-        const maiorNumero = Math.max(...cirurgias.map(cirurgia => cirurgia.avista));
-        const somaDemaisElementos = cirurgias.reduce((total, cirurgia) => {
-            if (cirurgia.avista !== maiorNumero) {
-                return total + cirurgia.avista;
-            }
-            return total;
-        }, 0);
+        const maiorNumero = Math.max(...cirurgias);
+        const somaDemaisElementos = cirurgias.reduce((total, valor) => total + valor - maiorNumero, 0);
 
-        const resultado = maiorNumero + somaDemaisElementos / 2;
-
-        return resultado;
+        return maiorNumero + somaDemaisElementos / 2;
     };
 
-    return { obterCirurgia, obterItensCirurgicos, somarCirurgias };
+    return { obterCirurgia, somarCirurgias };
 })();
 
 const valorReal = (valorEquipe, taxa) => {

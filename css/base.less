@@ -26,6 +26,17 @@ body {
     row-gap: 25px;
 }
 
+select {
+    height: 34px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: solid 1px grey;
+
+    &:focus {
+        outline: none;
+    }
+}
+
 /* ---------------------------- FRAMEWORK ---------------------------- */
 
 h1{
@@ -118,10 +129,11 @@ h1{
     background-color: @color3;
     color: @color1;
     text-align: center;
-    border: solid 1px @color1;
+    border: solid 2px @color1;
     cursor: pointer;
     transition: 0.3s;
     font-size: 16px;
+    font-weight: bold;
 
     &:hover {
         background-color: @color1;

@@ -18,7 +18,8 @@
 
     <main>
         <form class="container" onchange="calcularTotal()">
-            <section id="dadosPaciente" class="sessao-form">
+
+            <section class="sessao-form" id="dadosPaciente">
                 <h2>Dados do Paciente</h2>
                 <div id="inputs-paciente">
                     <div class="box-input">
@@ -32,18 +33,14 @@
                 </div>
             </section>
 
-            <section id="dadosCirurgia" class="sessao-form">
+            <section class="sessao-form" id="dadosCirurgia">
                 <div id="header_cirurgia">
                     <h2>Dados da Cirurgia</h2>
-                    <span id="add-cirurgia-btn" class="btn">+ 1 Cirurgia</span>
-                </div>
-
-                <div id="cirurgias">
-                    <!-- Adição Dinâmica -->
+                    <button type="button" class="btn" id="add-cirurgia-btn" onclick="CirurgiaModule.addCirurgia()">+ 1 Cirurgia</button>
                 </div>
             </section>
 
-            <section id="dadosEquipe" class="sessao-form" onchange="calcularEquipe()">
+            <section class="sessao-form" id="dadosEquipe" onchange="calcularEquipe()">
                 <h2>Dados da Equipe</h2>
                 <div id="inputs-equipe">
                     <div class="box-input">
@@ -54,16 +51,12 @@
                         <label for="formaPagamento">Forma de Pagamento</label>
                         <select name="formaPagamento" id="formaPagamento"
                             onchange="inserirDados('#porcentagemTaxa', (this.value * 100).toFixed(2))">
-                            Adição Dinâmica
+                            <!-- Adição Dinâmica -->
                         </select>
                     </div>
                     <div class="box-resultado">
                         <p class="titulo-resultado">Taxa de Juros</p>
                         <p class="valor-resultado"><span id="porcentagemTaxa">0</span>%</p>
-                    </div>
-                    <div class="box-input">
-                        <label for="ajustes">Taxa de Ajustes</label>
-                        <input type="number" id="taxaAjustes" name="ajustes">
                     </div>
                 </div>
                 <div id="valores-equipe">
@@ -81,14 +74,15 @@
                     </div>
                 </div>
             </section>
+
+            <section class="sessao-form" id="resultado">
+                <h2>Total</h2>
+                <p id="resultado-total"></p>
+            </section>
+
+            <input type="submit" class="btn" id="btn-gerar" onclick="gerarOrcamento()" value="Gerar Orçamento">
         </form>
 
-        <section id="resultado">
-            <h2>Total</h2>
-            <p id="resultado-total"></p>
-        </section>
-
-        <button id="btn-gerar" class="btn" onclick="gerarOrcamento()">Gerar Orçamento</button>
     </main>
 
     <footer>
@@ -100,7 +94,8 @@
     <script src="javascript/interface.js"></script>
 
     <script>
-        montarSelect("#formaPagamento", DBModule.formasPagamento, "taxa", "forma");
+
+        montarSelect("#formaPagamento", DBModule.formasPagamento, "forma", "taxa");
 
         const gerarOrcamento = () => {
             const dados = obterDados();

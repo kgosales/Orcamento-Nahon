@@ -17,6 +17,15 @@ body {
   align-items: center;
   row-gap: 25px;
 }
+select {
+  height: 34px;
+  border-radius: 5px;
+  padding: 0 10px;
+  border: solid 1px grey;
+}
+select:focus {
+  outline: none;
+}
 /* ---------------------------- FRAMEWORK ---------------------------- */
 h1 {
   font-size: 48px;
@@ -95,10 +104,11 @@ h1 {
   background-color: #fff;
   color: #34a853;
   text-align: center;
-  border: solid 1px #34a853;
+  border: solid 2px #34a853;
   cursor: pointer;
   transition: 0.3s;
   font-size: 16px;
+  font-weight: bold;
 }
 .btn:hover {
   background-color: #34a853;

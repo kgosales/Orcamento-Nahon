@@ -17,6 +17,15 @@ body {
   align-items: center;
   row-gap: 25px;
 }
+select {
+  height: 34px;
+  border-radius: 5px;
+  padding: 0 10px;
+  border: solid 1px grey;
+}
+select:focus {
+  outline: none;
+}
 /* ---------------------------- FRAMEWORK ---------------------------- */
 h1 {
   font-size: 48px;
@@ -95,10 +104,11 @@ h1 {
   background-color: #fff;
   color: #34a853;
   text-align: center;
-  border: solid 1px #34a853;
+  border: solid 2px #34a853;
   cursor: pointer;
   transition: 0.3s;
   font-size: 16px;
+  font-weight: bold;
 }
 .btn:hover {
   background-color: #34a853;
@@ -161,100 +171,36 @@ main form {
 #dadosCirurgia #cirurgias .cirurgia {
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  row-gap: 20px;
+  column-gap: 20px;
 }
-#dadosCirurgia #cirurgias .cirurgia .input-cirurgia {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+#dadosCirurgia #cirurgias .cirurgia select {
+  flex-grow: 1;
 }
-#dadosCirurgia #cirurgias .cirurgia .input-cirurgia select {
-  width: 70%;
+#dadosCirurgia #cirurgias .cirurgia .valor-cirurgia {
+  width: 105px;
   height: 34px;
+  line-height: 34px;
+  padding: 0 10px;
   border-radius: 5px;
-  padding: 0px 10px;
-  border: solid 1px grey;
+  background-color: #34a853;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  font-weight: bold;
 }
-#dadosCirurgia #cirurgias .cirurgia .input-cirurgia .btn-detalhes {
-  width: 140px;
-  height: 34px;
-}
-#dadosCirurgia #cirurgias .cirurgia .input-cirurgia .btn-delete {
+#dadosCirurgia #cirurgias .cirurgia .btn-delete {
   width: 34px;
   height: 34px;
   padding: 0;
-  border: solid 1px red;
+  border: solid 2px red;
   border-radius: 50%;
   color: red;
-  font-weight: bold;
-  line-height: 34px;
 }
-#dadosCirurgia #cirurgias .cirurgia .input-cirurgia .btn-delete:hover {
+#dadosCirurgia #cirurgias .cirurgia .btn-delete:hover {
   background-color: red;
   color: white;
-}
-#dadosCirurgia #cirurgias .cirurgia .detalhes-cirurgia {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  gap: 20px;
-  height: 0;
-  overflow: hidden;
-  transition: height 0.5s ease-out;
-}
-#dadosCirurgia #cirurgias .cirurgia .detalhes-cirurgia.active {
-  height: 200px;
-}
-#dadosCirurgia #cirurgias .cirurgia .detalhes-cirurgia .detalhes-valor {
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 40px;
-}
-#dadosCirurgia #cirurgias .cirurgia .detalhes-cirurgia .detalhes-valor table {
-  border-collapse: collapse;
-  font-size: 12px;
-}
-#dadosCirurgia #cirurgias .cirurgia .detalhes-cirurgia .detalhes-valor table th {
-  text-align: center;
-  font-weight: bold;
-  background-color: #34a853;
-  color: white;
-  padding: 8px;
-}
-#dadosCirurgia #cirurgias .cirurgia .detalhes-cirurgia .detalhes-valor table .sub-title-table {
-  text-align: center;
-  font-weight: bold;
-  background-color: #a8ecba;
-  color: black;
-  padding: 5px;
-}
-#dadosCirurgia #cirurgias .cirurgia .detalhes-cirurgia .detalhes-valor table td {
-  padding: 5px;
-}
-#dadosCirurgia #cirurgias .cirurgia .detalhes-cirurgia .detalhes-valor table .td-center {
-  text-align: center;
-}
-#dadosCirurgia #cirurgias .cirurgia .detalhes-cirurgia .detalhes-valor table:nth-of-type(1) {
-  width: 40%;
-}
-#dadosCirurgia #cirurgias .cirurgia .detalhes-cirurgia .detalhes-valor table:nth-of-type(2) {
-  width: 60%;
-}
-#dadosCirurgia #cirurgias .cirurgia .detalhes-cirurgia p {
-  width: 50%;
-  padding: 5px 10px;
-  border-radius: 5px;
-  background-color: #34a853;
-  color: white;
-  text-align: center;
 }
 /* --------------------- Dados Equipe --------------------- */
 #dadosEquipe #inputs-equipe {
@@ -278,13 +224,6 @@ main form {
 }
 #dadosEquipe #inputs-equipe .box-input input:focus {
   outline: none;
-}
-#dadosEquipe #inputs-equipe .box-input select {
-  width: 80%;
-  height: 34px;
-  border-radius: 5px;
-  padding: 0px 10px;
-  border: solid 1px grey;
 }
 #dadosEquipe #valores-equipe {
   width: 100%;
