@@ -23,20 +23,21 @@ const obterDados = () => {
         return CirurgiaDataModule.obterCirurgia(idCirurgia);
     });
 
-    dados.cirurgias.somaCirurgias = CirurgiaDataModule.somarCirurgias(dados.cirurgias.cirurgias);
-    dados.cirurgias.somaItensCirurgias = dados.cirurgias.cirurgias.reduce((acc, cir) => acc + cir.somaItens, 0);
+    if (dados.cirurgias.cirurgias.length > 0) {
+        dados.cirurgias.somaCirurgias = CirurgiaDataModule.somarCirurgias(dados.cirurgias.cirurgias);
+    }
 
     // EQUIPE
-    dados.equipe.valor = parseFloat(
-        document.querySelector("#valorEquipe")?.value || 0
-    );
-    dados.equipe.taxaPagamento = parseFloat(
-        document.querySelector("#formaPagamento")?.value || 0
-    );
+    dados.equipe.valor = parseFloat(document.querySelector("#valorEquipe")?.value || 0);
+    dados.equipe.taxaPagamento = parseFloat(document.querySelector("#formaPagamento")?.value || 0);
 
     dados.equipe.valorTotal = calcularEquipe(dados.equipe.valor, dados.equipe.taxaPagamento);
 
+    // TOTAL
+
     dados.valorTotal = dados.equipe.valorTotal + dados.cirurgias.valorTotal;
+
+    console.log(dados);
 
     return dados;
 };
@@ -52,30 +53,20 @@ const CirurgiaDataModule = (() => {
         return DBModule.cirurgias.find(cir => cir.id === idCirurgia);
     };
 
-    // const somarCirurgias = (cirurgias) => {
-    //     if (!cirurgias || cirurgias.length === 0) {
-    //         throw new Error("Nenhuma cirurgia encontrada ou array vazio.");
-    //     }
-
-    //     const maiorNumero = Math.max(...cirurgias.map(cirurgia => cirurgia.avista));
-    //     const somaDemaisElementos = cirurgias.reduce((total, cirurgia) => {
-    //         if (cirurgia.avista !== maiorNumero) {
-    //             return total + cirurgia.avista;
-    //         }
-    //         return total;
-    //     }, 0);
-
-    //     return maiorNumero + somaDemaisElementos / 2;
-    // };
-
     const somarCirurgias = (cirurgias) => {
         if (!cirurgias || cirurgias.length === 0) {
             throw new Error("Nenhuma cirurgia encontrada ou array vazio.");
         }
 
-        const maiorNumero = Math.max(...cirurgias);
-        const somaDemaisElementos = cirurgias.reduce((total, valor) => total + valor - maiorNumero, 0);
+        // Encontra o maior valor de avista
+        const maiorNumero = Math.max(...cirurgias.map(cirurgia => cirurgia.avista));
 
+        // Calcula a soma dos demais elementos (exceto o maior valor)
+        const somaDemaisElementos = cirurgias
+            .filter(cirurgia => cirurgia.avista !== maiorNumero)
+            .reduce((total, cirurgia) => total + cirurgia.avista, 0);
+
+        // Retorna a média ponderada
         return maiorNumero + somaDemaisElementos / 2;
     };
 
@@ -86,7 +77,7 @@ const valorReal = (valorEquipe, taxa) => {
     return valorEquipe * (1 + taxa);
 };
 
-const valorMarcele = (valorEquipe, taxa) => {
+const valorNahon = (valorEquipe, taxa) => {
     return (valorEquipe * 100) / (100 - taxa * 100);
 };
 
@@ -103,12 +94,12 @@ const valorArredondado = (valor) => {
 const calcularEquipe = (valor, taxa) => {
 
     let real = valorReal(valor, taxa);
-    let marcele = valorMarcele(valor, taxa);
-    let arredondado = valorArredondado(marcele);
+    let nahon = valorNahon(valor, taxa);
+    let arredondado = valorArredondado(nahon);
 
     if (valor > 0 && taxa != 0) {
         inserirDados("#valorReal", formatarMoeda(real));
-        inserirDados("#valorMarcele", formatarMoeda(marcele));
+        inserirDados("#valorNahon", formatarMoeda(nahon));
         inserirDados("#totalEquipe", formatarMoeda(arredondado));
     }
 
