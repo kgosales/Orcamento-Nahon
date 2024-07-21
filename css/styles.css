@@ -202,6 +202,24 @@ main form {
   background-color: red;
   color: white;
 }
+#dadosCirurgia #itens {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 20px;
+}
+#dadosCirurgia #itens .input-itens {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 20px;
+}
+#dadosCirurgia #itens .input-itens .box-input:nth-of-type(1) {
+  width: 50%;
+  flex-direction: row;
+}
 /* --------------------- Dados Equipe --------------------- */
 #dadosEquipe #inputs-equipe {
   width: 100%;

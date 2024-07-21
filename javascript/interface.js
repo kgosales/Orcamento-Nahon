@@ -72,11 +72,41 @@ const CirurgiaModule = (() => {
 
         itens.forEach(item => {
             const novoItem = document.createElement('div');
-            novoItem.className = 'box-input';
+            novoItem.className = 'input-itens';
             novoItem.innerHTML = `
-                <label for="${item.item}">${item.item}</label>
-                <input type="checkbox" name="${item.item}" id="${item.item}">
+                <div class="box-input">
+                    <label for="${item.item}" id="label-${item.item}">${item.item}</label>
+                    <input type="checkbox" name="${item.item}" id="check-${item.item}">
+                </div>
+                <div class="box-input" id="box-quant-${item.item}">
+                    <label for="${item.item}">Quantidade</label>
+                    <input type="number" name="${item.item}" id="quant-${item.item}" min="0" value="1">
+                </div>
+                <div class="box-resultado" id="box-valor-${item.item}">
+                    <label for="${item.item}">Valor</label>
+                    <p name="${item.item}" id="valor-${item.item}"></p>
+                </div>
             `;
+
+            // const check = document.querySelector(`#check-${item.item}`);
+            // check.addEventListener('click', () => {
+            //     const quant = document.querySelector(`#quant-${item.item}`);
+            //     const valor = document.querySelector(`#valor-${item.item}`);
+            //     const valorTotal = document.querySelector(`#valor-${item.item}-total`);
+
+            //     if (check.checked) {
+            //         quant.value = 1;
+            //         valor.innerText = formatarMoeda(item.preco);
+            //         valorTotal.innerText = formatarMoeda(item.preco);
+            //     } else {
+            //         quant.value = 0;
+            //         valor.innerText = formatarMoeda(0);
+            //         valorTotal.innerText = formatarMoeda(0);
+            //     }
+
+            //     valorTotal.innerText = formatarMoeda(quant.value * item.preco);
+            // });
+
             document.querySelector('#itens').appendChild(novoItem);
         });
     }
