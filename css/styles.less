@@ -123,14 +123,33 @@ main {
             width: 100%;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            column-gap: 20px;
+            column-gap: 30px;
 
             .box-input {
 
                 &:nth-of-type(1) {
-                    width: 50%;
                     flex-direction: row;
+                    align-items: center;
+                    column-gap: 10px;
+
+                    input {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+
+                &:nth-of-type(2) {
+                    width: 15%;
+                }
+            }
+
+            &:nth-of-type(5) {
+                .box-input {
+                   &:nth-of-type(1) {
+                        label{
+                            // font-size: 10px;
+                        }
+                    }
                 }
             }
         }

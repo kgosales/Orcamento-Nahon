@@ -76,42 +76,34 @@ const CirurgiaModule = (() => {
             novoItem.innerHTML = `
                 <div class="box-input">
                     <label for="${item.item}" id="label-${item.item}">${item.item}</label>
-                    <input type="checkbox" name="${item.item}" id="check-${item.item}">
+                    <input type="checkbox" name="${item.item}" id="check-${item.item}" onchange="CirurgiaModule.ativarQuantidade('${item.item}')">
                 </div>
                 <div class="box-input" id="box-quant-${item.item}">
                     <label for="${item.item}">Quantidade</label>
-                    <input type="number" name="${item.item}" id="quant-${item.item}" min="0" value="1">
+                    <input type="number" name="${item.item}" id="quant-${item.item}" min="0" disabled onchange="CirurgiaModule.calcularItems('${item.item}')">
                 </div>
                 <div class="box-resultado" id="box-valor-${item.item}">
                     <label for="${item.item}">Valor</label>
                     <p name="${item.item}" id="valor-${item.item}"></p>
                 </div>
             `;
-
-            // const check = document.querySelector(`#check-${item.item}`);
-            // check.addEventListener('click', () => {
-            //     const quant = document.querySelector(`#quant-${item.item}`);
-            //     const valor = document.querySelector(`#valor-${item.item}`);
-            //     const valorTotal = document.querySelector(`#valor-${item.item}-total`);
-
-            //     if (check.checked) {
-            //         quant.value = 1;
-            //         valor.innerText = formatarMoeda(item.preco);
-            //         valorTotal.innerText = formatarMoeda(item.preco);
-            //     } else {
-            //         quant.value = 0;
-            //         valor.innerText = formatarMoeda(0);
-            //         valorTotal.innerText = formatarMoeda(0);
-            //     }
-
-            //     valorTotal.innerText = formatarMoeda(quant.value * item.preco);
-            // });
-
             document.querySelector('#itens').appendChild(novoItem);
         });
     }
 
-    return { addCirurgia, exibirValorCirurgia, deleteCirurgia };
+    const ativarQuantidade = (id) => {
+        const inputQuantidade = document.querySelector(`#quant-${id}`);
+        inputQuantidade.disabled = !inputQuantidade.disabled;
+        inputQuantidade.value = inputQuantidade.disabled ? null : 1;
+    }
+
+    const calcularItems = (id) => {
+        const item = DBModule.itensPosCirurgia.find(item => item.item === id);
+        const quant = document.querySelector(`#quant-${id}`).value;
+        inserirDados(`#valor-${id}`, formatarMoeda(item.preco * quant));
+    }
+
+    return { addCirurgia, exibirValorCirurgia, deleteCirurgia, ativarQuantidade, calcularItems };
 })();
 
 // FORMATAÇÕES
