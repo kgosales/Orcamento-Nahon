@@ -94,8 +94,12 @@
             background-color: #e0f4d8;
         }
 
-        tbody .valor {
+        .valor {
             text-align: center;
+        }
+
+        tfoot{
+            background-color: #48e472;
         }
 
         /* --------------------- Observações --------------------- */
@@ -184,7 +188,24 @@
                     <td class="valor" id="valorEquipeAVista"></td>
                     <td class="valor" id="valorEquipeAPrazo"></td>
                 </tr>
+                <tr>
+                    <td>Extras</td>
+                    <td class="valor" id="valorFisioterapiaAVista"></td>
+                    <td class="valor" id="valorFisioterapiaAPrazo"></td>
+                </tr>
+                <tr>
+                    <td>Fisioterapia (pré, intra e 6 sessões de pós)</td>
+                    <td class="valor" id="valorFisioterapiaAVista"></td>
+                    <td class="valor" id="valorFisioterapiaAPrazo"></td>
+                </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td>Total</td>
+                    <td class="valor" id="valorTotalAVista"></td>
+                    <td class="valor" id="valorTotalAPrazo"></td>
+                </tr>
+            </tfoot>
         </table>
     </section>
 
@@ -246,6 +267,7 @@
 
                 document.getElementById('valorHospitalAVista').textContent = formatarMoeda(orcamento.cirurgias.valorTotal);
                 document.getElementById('valorEquipeAVista').textContent = formatarMoeda(orcamento.equipe.valorTotal);
+                document.getElementById('valorTotalAVista').textContent = formatarMoeda(orcamento.valorTotal);
 
                 window.print();
             } else {

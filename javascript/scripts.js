@@ -1,16 +1,10 @@
-import CirurgiaManager from "./class.cirurgia.js";
-
-const cirurgiaManager = new CirurgiaManager();
-
-document.querySelector("#add-cirurgia-btn").addEventListener("click", cirurgiaManager.addCirurgia);
-
 const obterDados = () => {
     const dados = {
         paciente: {},
         cirurgias: {
             adicionais: {
-                anestesia: 500,
-                horaExtra: 500,
+                anestesia: 550,
+                horaExtra: 520,
             }
         },
         equipe: {},
@@ -32,6 +26,23 @@ const obterDados = () => {
     if (dados.cirurgias.cirurgias.length > 0) {
         dados.cirurgias.somaCirurgias = CirurgiaDataModule.somarCirurgias(dados.cirurgias.cirurgias);
     }
+
+    // ITENS
+
+    dados.cirurgias.itens = Array.from(
+        document.querySelectorAll(".item")
+    ).map((item) => {
+        const idItem = parseInt(item.id);
+        return CirurgiaDataModule.obterItem(idItem);
+    });
+
+    console.log(dados.cirurgias.itens);
+
+    // if (dados.cirurgias.itens.length > 0) {
+    //     dados.cirurgias.somaItens = CirurgiaDataModule.somarItens(dados.cirurgias.itens);
+    // }
+
+    // dados.cirurgias.valorTotal = dados.cirurgias.somaCirurgias + dados.cirurgias.somaItens;
 
     // EQUIPE
     dados.equipe.valor = parseFloat(document.querySelector("#valorEquipe")?.value || 0);

@@ -36,8 +36,8 @@
             <section class="sessao-form" id="dadosCirurgia">
                 <div id="header_cirurgia">
                     <h2>Dados da Cirurgia</h2>
-                    <button type="button" class="btn" id="add-cirurgia-btn">+ 1
-                        Cirurgia</button>
+                    <button type="button" class="btn" id="add-cirurgia-btn" onclick="CirurgiaModule.addCirurgia()">
+                        + 1 Cirurgia</button>
                 </div>
             </section>
 
@@ -81,7 +81,7 @@
                 <p id="resultado-total"></p>
             </section>
 
-            <input type="submit" class="btn" id="btn-gerar" onclick="gerarOrcamento()" value="Gerar Orçamento">
+            <input type="submit" class="btn" id="btn-gerar" onclick="gerarOrcamento(event)" value="Gerar Orçamento">
         </form>
 
     </main>
@@ -91,20 +91,24 @@
     </footer>
 
     <script src="javascript/database.js"></script>
-    <script type="module" src="javascript/scripts.js"></script>
+    <script src="javascript/scripts.js"></script>
     <script src="javascript/interface.js"></script>
 
     <script>
 
+        CirurgiaModule.itens();
+
         montarSelect("#formaPagamento", DBModule.formasPagamento, "forma", "taxa");
 
-        const gerarOrcamento = () => {
+        const gerarOrcamento = (event) => {
+            event.preventDefault();
+
             const dados = obterDados();
 
             console.log(dados);
 
             localStorage.setItem('orcamento', JSON.stringify(dados));
-            window.location.href = 'orcamento.html';
+            window.open('orcamento.html', '_blank');
         };
     </script>
 
