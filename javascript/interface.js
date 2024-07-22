@@ -1,3 +1,5 @@
+
+
 // GERAL //////////////////////////////////////////////////////////////////////////////////
 
 const montarSelect = (idSelect, optionsList, optionsText, optionsValue) => {
@@ -18,93 +20,96 @@ const inserirDados = (idElemento, dados) => {
     elemento.innerText = dados;
 };
 
+const criarElemento = (tag, id, className, local) => {
+    const elemento = document.createElement(tag);
+    elemento.id = id;
+    elemento.className = className;
+    document.querySelector(local).appendChild(elemento);
+    return elemento
+}
+
 // CIRUGIA ///////////////////////////////////////////////////////////////////////////////////
 
 // Módulo de manipulação de cirurgias
-const CirurgiaModule = (() => {
-    const addCirurgia = () => {
+// const CirurgiaModule = (() => {
+//     const addCirurgia = () => {
 
-        if (!document.querySelector('#cirurgias')) {
-            const divCirurgias = document.createElement('div');
-            divCirurgias.id = 'cirurgias';
-            document.querySelector('#dadosCirurgia').appendChild(divCirurgias);
-            itens();
-        }
+//         if (!document.querySelector('#cirurgias')) {
+//             criarElemento('div', 'cirurgias', null, '#dadosCirurgia');
+//             itens();
+//         }
 
-        const quantCirurgia = document.querySelectorAll('.cirurgia').length;
-        const novaCirurgiaId = `cirurgia-${quantCirurgia + 1}`;
+//         const quantCirurgia = document.querySelectorAll('.cirurgia').length;
+//         const novaCirurgiaId = `cirurgia-${quantCirurgia + 1}`;
 
-        const novaCirurgia = document.createElement('div');
-        novaCirurgia.className = 'cirurgia';
-        novaCirurgia.id = novaCirurgiaId;
-        novaCirurgia.innerHTML = `
-            <label for="select-${novaCirurgiaId}">Cirurgia</label>
-            <select id="select-${novaCirurgiaId}" name="select-${novaCirurgiaId}" onchange="CirurgiaModule.exibirValorCirurgia('${novaCirurgiaId}',parseInt(this.value))"></select>
-            <span class="valor-cirurgia" id="valor-${novaCirurgiaId}">${formatarMoeda(0)}</span>
-            <button type="button" class="btn btn-delete" id="btn-delete-${novaCirurgiaId}">X</button>
-        `;
+//         const novaCirurgia = criarElemento('div', novaCirurgiaId, 'cirurgia', '#cirurgias');
+//         novaCirurgia.innerHTML = `
+//             <label for="select-${novaCirurgiaId}">Cirurgia</label>
+//             <select id="select-${novaCirurgiaId}" name="select-${novaCirurgiaId}" onchange="CirurgiaModule.exibirValorCirurgia('${novaCirurgiaId}',parseInt(this.value))"></select>
+//             <span class="valor-cirurgia" id="valor-${novaCirurgiaId}">${formatarMoeda(0)}</span>
+//             <button type="button" class="btn btn-delete" id="btn-delete-${novaCirurgiaId}">X</button>
+//         `;
 
-        document.querySelector('#cirurgias').appendChild(novaCirurgia);
-        montarSelect(`#select-${novaCirurgiaId}`, DBModule.cirurgias, "cirurgia", "id");
-        document.querySelector(`#btn-delete-${novaCirurgiaId}`).addEventListener('click', () => deleteCirurgia(novaCirurgiaId));
-    };
+//         montarSelect(`#select-${novaCirurgiaId}`, DBModule.cirurgias, "cirurgia", "id");
+//         document.querySelector(`#btn-delete-${novaCirurgiaId}`).addEventListener('click', () => deleteCirurgia(novaCirurgiaId));
+//     };
 
-    const exibirValorCirurgia = (idValor, idCirurgia) => {
-        const cirurgia = CirurgiaDataModule.obterCirurgia(idCirurgia);
-        inserirDados(`#valor-${idValor}`, formatarMoeda(cirurgia.avista));
-    };
+//     const exibirValorCirurgia = (idValor, idCirurgia) => {
+//         const cirurgia = CirurgiaDataModule.obterCirurgia(idCirurgia);
+//         inserirDados(`#valor-${idValor}`, formatarMoeda(cirurgia.avista));
+//     };
 
-    const deleteCirurgia = (id) => {
-        const cirurgia = document.querySelector(`#${id}`);
-        cirurgia ? cirurgia.remove() : console.error(`Cirurgia com id ${id} não encontrada.`);
-    };
+//     const deleteCirurgia = (id) => {
+//         const cirurgia = document.querySelector(`#${id}`);
+//         cirurgia ? cirurgia.remove() : console.error(`Cirurgia com id ${id} não encontrada.`);
+//     };
 
-    const itens = () => {
-        const divItens = document.createElement('div');
-        divItens.id = 'itens';
-        document.querySelector('#dadosCirurgia').appendChild(divItens);
+//     const itens = () => {
 
-        const labelItens = document.createElement('h3');
-        labelItens.innerText = 'Itens';
-        document.querySelector('#itens').appendChild(labelItens);
+//         criarElemento('div', 'itens', null, '#dadosCirurgia');
+//         criarElemento('h3', 'label-itens', null, '#itens');
 
-        const itens = DBModule.itensPosCirurgia;
+//         const itens = DBModule.itensPosCirurgia;
 
-        itens.forEach(item => {
-            const novoItem = document.createElement('div');
-            novoItem.className = 'input-itens';
-            novoItem.innerHTML = `
-                <div class="box-input">
-                    <label for="${item.item}" id="label-${item.item}">${item.item}</label>
-                    <input type="checkbox" name="${item.item}" id="check-${item.item}" onchange="CirurgiaModule.ativarQuantidade('${item.item}')">
-                </div>
-                <div class="box-input" id="box-quant-${item.item}">
-                    <label for="${item.item}">Quantidade</label>
-                    <input type="number" name="${item.item}" id="quant-${item.item}" min="0" disabled onchange="CirurgiaModule.calcularItems('${item.item}')">
-                </div>
-                <div class="box-resultado" id="box-valor-${item.item}">
-                    <label for="${item.item}">Valor</label>
-                    <p name="${item.item}" id="valor-${item.item}"></p>
-                </div>
-            `;
-            document.querySelector('#itens').appendChild(novoItem);
-        });
-    }
+//         itens.forEach(item => {
 
-    const ativarQuantidade = (id) => {
-        const inputQuantidade = document.querySelector(`#quant-${id}`);
-        inputQuantidade.disabled = !inputQuantidade.disabled;
-        inputQuantidade.value = inputQuantidade.disabled ? null : 1;
-    }
+//             const novoItem = criarElemento('div', `item-${item.id}`, 'input-itens', '#itens');
 
-    const calcularItems = (id) => {
-        const item = DBModule.itensPosCirurgia.find(item => item.item === id);
-        const quant = document.querySelector(`#quant-${id}`).value;
-        inserirDados(`#valor-${id}`, formatarMoeda(item.preco * quant));
-    }
+//             novoItem.innerHTML = `
+//                 <div class="box-input">
+//                     <label for="check-${novoItem.id}" id="label-${novoItem.id}">${item.item}</label>
+//                     <input type="checkbox" name="check-${novoItem.id}" id="check-${novoItem.id}" onchange="CirurgiaModule.ativarQuantidade('${novoItem.id}','${item.id}')">
+//                 </div>
+//                 <div class="box-input" id="box-quant-${novoItem.id}">
+//                     <label for="quant-${novoItem.id}">Quantidade</label>
+//                     <input type="number" name="quant-${novoItem.id}" id="quant-${novoItem.id}" min="0" disabled onchange="CirurgiaModule.calcularItens('${novoItem.id}','${item.id}')">
+//                 </div>
+//                 <div class="box-resultado" id="box-valor-${novoItem.id}">
+//                     <span name="valor-${novoItem.id}" id="valor-${novoItem.id}">${formatarMoeda(0)}</span>
+//                 </div>
+//             `;
+//         });
 
-    return { addCirurgia, exibirValorCirurgia, deleteCirurgia, ativarQuantidade, calcularItems };
-})();
+//         criarElemento('div', 'totalItens', null, '#dadosCirurgia');
+//         criarElemento('h3', 'label-total', null, '#totalItens').innerText = 'Total dos Itens';
+//         criarElemento('span', 'span-total', 'box-resultado', '#totalItens').innerText = formatarMoeda(0);
+//     }
+
+//     const ativarQuantidade = (idElemento, idItem) => {
+//         const inputQuantidade = document.querySelector(`#quant-${idElemento}`);
+//         inputQuantidade.disabled = !inputQuantidade.disabled;
+//         inputQuantidade.value = inputQuantidade.disabled ? null : 1;
+//         calcularItens(idElemento, idItem);
+//     }
+
+//     const calcularItens = (idElemento, idItem) => {
+//         const item = DBModule.itensPosCirurgia.find(item => item.id === parseInt(idItem));
+//         const quant = document.querySelector(`#quant-${idElemento}`).value;
+//         inserirDados(`#valor-${idElemento}`, formatarMoeda(item.valor * quant));
+//     }
+
+//     return { addCirurgia, exibirValorCirurgia, deleteCirurgia, ativarQuantidade, calcularItens };
+// })();
 
 // FORMATAÇÕES
 

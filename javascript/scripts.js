@@ -1,3 +1,9 @@
+import CirurgiaManager from "./class.cirurgia.js";
+
+const cirurgiaManager = new CirurgiaManager();
+
+document.querySelector("#add-cirurgia-btn").addEventListener("click", cirurgiaManager.addCirurgia);
+
 const obterDados = () => {
     const dados = {
         paciente: {},
