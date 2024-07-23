@@ -202,40 +202,61 @@ main form {
   background-color: red;
   color: white;
 }
-#dadosCirurgia #itens {
+/* ----------------------------------- Extras --------------------------------- */
+#extras {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   row-gap: 20px;
 }
-#dadosCirurgia #itens #container-itens {
+#extras #container-extras {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#extras #container-extras #sessao-itens {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#extras #container-extras #sessao-itens #container-itens {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
+  row-gap: 20px;
+  column-gap: 40px;
 }
-#dadosCirurgia #itens #container-itens .input-itens {
-  width: 48%;
+#extras #container-extras #sessao-itens #container-itens .item {
+  width: calc(50% - 20px);
   display: flex;
   align-items: center;
-  column-gap: 30px;
+  justify-content: space-between;
 }
-#dadosCirurgia #itens #container-itens .input-itens .box-input:nth-of-type(1) {
-  flex-direction: row;
-  align-items: center;
-  column-gap: 10px;
+#extras #container-extras #sessao-itens #container-itens .item label {
+  font-weight: bold;
 }
-#dadosCirurgia #itens #container-itens .input-itens .box-input:nth-of-type(1) input {
+#extras #container-extras #sessao-itens #container-itens .item input[type="checkbox"] {
   width: 20px;
   height: 20px;
 }
-#dadosCirurgia #itens #container-itens .input-itens .box-resultado .valor-item {
-  width: 100px;
+#extras #container-extras #sessao-itens #container-itens .item input[type="number"] {
+  width: 120px;
 }
-#dadosCirurgia #itens #container-itens .input-itens:nth-of-type(5) {
+#extras #container-extras #sessao-itens #container-itens .item .box-item-check {
+  width: 160px;
+  flex-direction: row;
+  column-gap: 10px;
+}
+#extras #container-extras #sessao-itens #container-itens .item .box-item-valor {
+  width: 120px;
+}
+#extras #container-extras #sessao-itens #container-itens .item:nth-of-type(5) {
   width: 100%;
+}
+#extras #container-extras #sessao-itens #container-itens .item:nth-of-type(5) .box-item-check {
+  width: auto;
 }
 /* --------------------- Dados Equipe --------------------- */
 #dadosEquipe #inputs-equipe {

@@ -17,7 +17,7 @@
     </header>
 
     <main>
-        <form class="container" onchange="calcularTotal()">
+        <form class="container">
 
             <section class="sessao-form" id="dadosPaciente">
                 <h2>Dados do Paciente</h2>
@@ -38,6 +38,13 @@
                     <h2>Dados da Cirurgia</h2>
                     <button type="button" class="btn" id="add-cirurgia-btn" onclick="CirurgiaModule.addCirurgia()">
                         + 1 Cirurgia</button>
+                </div>
+            </section>
+
+            <section class="sessao-form" id="extras">
+                <h2>Extras</h2>
+                <div id="container-extras">
+                    <!-- Adição Dinâmica -->
                 </div>
             </section>
 
@@ -84,6 +91,8 @@
             <input type="submit" class="btn" id="btn-gerar" onclick="gerarOrcamento(event)" value="Gerar Orçamento">
         </form>
 
+        <button onclick="teste()">Teste</button>
+
     </main>
 
     <footer>
@@ -96,7 +105,10 @@
 
     <script>
 
-        CirurgiaModule.itens();
+        const teste = () => {
+            ItensModule.extrairItens();
+            FisioterapiaModule.extrairSessoes();
+        };
 
         montarSelect("#formaPagamento", DBModule.formasPagamento, "forma", "taxa");
 

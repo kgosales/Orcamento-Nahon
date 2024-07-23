@@ -4,7 +4,7 @@ const montarSelect = (idSelect, optionsList, optionsText, optionsValue) => {
     const select = document.querySelector(idSelect);
 
     // Adiciona uma opção em branco no início
-    select.add(new Option("-- Selecione --", ""));
+    select.add(new Option("-- Selecione --", " "));
 
     // Adiciona as novas opções
     optionsList.forEach((optionData) => {
@@ -18,67 +18,31 @@ const inserirDados = (idElemento, dados) => {
     elemento.innerText = dados;
 };
 
-const criarElemento = (tag, id, className, local) => {
+const criarElemento = (tag, { id, className, text, local }) => {
     const elemento = document.createElement(tag);
-    elemento.id = id;
-    if (className) {
-        elemento.className = className;
-    }
-    document.querySelector(local).appendChild(elemento);
-    return elemento;
-};
 
-const criarItem = (novoItem, item) => {
-    const html = `
-        <div class="box-input">
-                    <label for="check-${novoItem.id}" id="label-${
-        novoItem.id
-    }">${item.item}</label>
-                    <input type="checkbox" name="check-${
-                        novoItem.id
-                    }" id="check-${
-        novoItem.id
-    }" onchange="CirurgiaModule.ativarQuantidade('${novoItem.id}','${
-        item.id
-    }')">
-                </div>
-                <div class="box-input" id="box-quant-${novoItem.id}">
-                    <label for="quant-${novoItem.id}">Quantidade</label>
-                    <input type="number" name="quant-${
-                        novoItem.id
-                    }" id="quant-${
-        novoItem.id
-    }" min="0" disabled onchange="CirurgiaModule.calcularItens('${
-        novoItem.id
-    }','${item.id}')">
-                </div>
-                <div class="box-resultado" id="box-valor-${novoItem.id}">
-                    <span name="valor-${
-                        novoItem.id
-                    }" class="valor-item" id="valor-${
-        novoItem.id
-    }">${formatarMoeda(0)}</span>
-                </div>
-    `;
-};
+    id && (elemento.id = id);
+    className && (elemento.className = className);
+    text && (elemento.innerText = text);
+    local && document.querySelector(local).appendChild(elemento);
+
+    return elemento;
+}
+
 // CIRUGIA ///////////////////////////////////////////////////////////////////////////////////
 
-// Módulo de manipulação de cirurgias
 const CirurgiaModule = (() => {
     const addCirurgia = () => {
         if (!document.querySelector("#cirurgias")) {
-            criarElemento("div", "cirurgias", null, "#dadosCirurgia");
+            const headerCirurgia = document.querySelector("#header_cirurgia");
+            const cirurgia = criarElemento("div", { id: "cirurgias" });
+            headerCirurgia.insertAdjacentElement("afterend", cirurgia);
         }
 
         const quantCirurgia = document.querySelectorAll(".cirurgia").length;
         const novaCirurgiaId = `cirurgia-${quantCirurgia + 1}`;
 
-        const novaCirurgia = criarElemento(
-            "div",
-            novaCirurgiaId,
-            "cirurgia",
-            "#cirurgias"
-        );
+        const novaCirurgia = criarElemento("div", { id: novaCirurgiaId, className: "cirurgia", local: "#cirurgias" });
         novaCirurgia.innerHTML = `
             <label for="select-${novaCirurgiaId}">Cirurgia</label>
             <select id="select-${novaCirurgiaId}" name="select-${novaCirurgiaId}" onchange="CirurgiaModule.exibirValorCirurgia('${novaCirurgiaId}',parseInt(this.value))"></select>
@@ -111,125 +75,10 @@ const CirurgiaModule = (() => {
             : console.error(`Cirurgia com id ${id} não encontrada.`);
     };
 
-    const itens = () => {
-        criarElemento("div", "itens", null, "#dadosCirurgia");
-        criarElemento("h3", "label-itens", null, "#itens").innerText = "Itens";
-        criarElemento("div", "container-itens", null, "#itens");
-
-        const itens = DBModule.itensPosCirurgia;
-
-        itens.forEach((item) => {
-            const novoItem = criarElemento(
-                "div",
-                `item-${item.id}`,
-                "input-itens",
-                "#container-itens"
-            );
-
-            novoItem.innerHTML = `
-                <div class="box-input">
-                    <label for="check-${novoItem.id}" id="label-${
-                novoItem.id
-            }">${item.item}</label>
-                    <input type="checkbox" name="check-${
-                        novoItem.id
-                    }" id="check-${
-                novoItem.id
-            }" onchange="CirurgiaModule.ativarQuantidade('${novoItem.id}','${
-                item.id
-            }')">
-                </div>
-                <div class="box-input" id="box-quant-${novoItem.id}">
-                    <label for="quant-${novoItem.id}">Quantidade</label>
-                    <input type="number" name="quant-${
-                        novoItem.id
-                    }" id="quant-${
-                novoItem.id
-            }" min="0" disabled onchange="CirurgiaModule.calcularItens('${
-                novoItem.id
-            }','${item.id}')">
-                </div>
-                <div class="box-resultado" id="box-valor-${novoItem.id}">
-                    <span name="valor-${
-                        novoItem.id
-                    }" class="valor-item" id="valor-${
-                novoItem.id
-            }">${formatarMoeda(0)}</span>
-                </div>
-            `;
-        });
-
-        criarElemento("div", "totalItens", null, "#itens");
-        criarElemento("h3", "label-total", null, "#totalItens").innerText =
-            "Total dos Itens";
-        criarElemento(
-            "span",
-            "span-total",
-            "box-resultado",
-            "#totalItens"
-        ).innerText = formatarMoeda(0);
-    };
-
-    const ativarQuantidade = (idElemento, idItem) => {
-        const inputQuantidade = document.querySelector(`#quant-${idElemento}`);
-        inputQuantidade.disabled = !inputQuantidade.disabled;
-        inputQuantidade.value = inputQuantidade.disabled ? null : 1;
-        calcularItens(idElemento, idItem);
-    };
-
-    const calcularItens = (idElemento, idItem) => {
-        const item = DBModule.itensPosCirurgia.find(
-            (item) => item.id === parseInt(idItem)
-        );
-        const quant = document.querySelector(`#quant-${idElemento}`).value;
-        inserirDados(`#valor-${idElemento}`, formatarMoeda(item.valor * quant));
-        calcularTotalItens();
-    };
-
-    const calcularTotalItens = () => {
-        const valorItens = document.querySelectorAll(".valor-item");
-
-        let total = 0;
-
-        valorItens.forEach((item) => {
-            total += parseFloat(
-                item.innerText.replace("R$", "").replace(",", ".")
-            );
-        });
-
-        inserirDados("#span-total", formatarMoeda(total));
-        obterItens();
-    };
-
-    const obterItens = () => {
-        const itens = document.querySelectorAll(".input-itens");
-        const itensCirurgia = [];
-        itens.forEach((item) => {
-            if (item.querySelector('input[type="checkbox"]').checked) {
-                const itemCirurgia = {
-                    item: item.querySelector("label").innerText,
-                    quant: item.querySelector('input[type="number"]').value,
-                    valor: parseFloat(
-                        item
-                            .querySelector(".valor-item")
-                            .innerText.replace("R$", "")
-                            .replace(",", ".")
-                    ),
-                };
-                itensCirurgia.push(itemCirurgia);
-            }
-        });
-
-        return itensCirurgia;
-    };
-
     return {
         addCirurgia,
         exibirValorCirurgia,
         deleteCirurgia,
-        ativarQuantidade,
-        calcularItens,
-        itens,
     };
 })();
 
@@ -243,3 +92,111 @@ const formatarMoeda = (valor) => {
         maximumFractionDigits: 2,
     }).format(valor);
 };
+
+// ITENS PÓS CIRURGICOS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const ItensModule = (() => {
+    const dbItens = DBModule.itensPosCirurgia;
+
+    const rederizarItens = () => {
+
+        criarElemento("div", { id: "sessao-itens", local: "#container-extras" });
+        criarElemento("h3", { text: "Itens", local: "#sessao-itens" });
+        criarElemento("div", { id: "container-itens", local: "#sessao-itens" });
+
+        dbItens.forEach((item) => {
+            criarElemento("div", { id: `item-${item.id}`, className: "item", local: "#container-itens", })
+                .innerHTML = `
+                <div class="box-input box-item-check">
+                    <input type="checkbox" name="itens" id="itens-${item.id}" onchange="ItensModule.habilitarQuantidade('${item.id}')">
+                    <label for="itens-${item.id}">${item.item}</label>
+                </div>
+                <div class="box-input">
+                    <label for="quant-${item.id}">Quantidade</label>
+                    <input type="number" name="quant-${item.id}" id="quant-${item.id}" min="0" onchange="ItensModule.atualizarValorItem('${item.id}')" disabled>
+                </div>
+                <div class="box-resultado box-item-valor" id="box-valor-${item.id}">
+                    <span name="valor-${item.id}" class="valor-item" id="item-valor-${item.id}">${formatarMoeda(0)}</span>
+                </div>
+            `
+        });
+    };
+
+    const habilitarQuantidade = (idElemento) => {
+        const inputQuantidade = document.querySelector(`#quant-${idElemento}`);
+        inputQuantidade.disabled = !inputQuantidade.disabled;
+        inputQuantidade.value = inputQuantidade.disabled ? null : 1;
+        ItensModule.atualizarValorItem(idElemento);
+    };
+
+    const atualizarValorItem = (idItem) => {
+        const item = dbItens.find((item) => item.id === parseInt(idItem));
+        const quant = document.querySelector(`#quant-${idItem}`).value;
+        inserirDados(`#item-valor-${idItem}`, formatarMoeda(item.valor * quant));
+    };
+
+    const extrairItens = () => {
+
+        const itens = [];
+        const itensDOM = document.querySelectorAll(".item");
+
+        itensDOM.forEach((item, index) => {
+
+            if (item.querySelector('input[type="checkbox"]').checked) {
+
+                dbItens.find((dbItem) => {
+                    if (dbItem.id === index + 1) {
+                        itens.push({
+                            item: dbItem.item,
+                            quant: parseInt(item.querySelector('input[type="number"]').value),
+                            valor: parseFloat(dbItem.valor),
+                        });
+                    }
+                });
+            }
+        });
+
+        console.log(itens);
+        return itens;
+    };
+
+    rederizarItens();
+
+    return { extrairItens, habilitarQuantidade, atualizarValorItem };
+})();
+
+// QUANTIDADE DE SESSÕES DE FISIOTERAPIA /////////////////////////////////////////////////////////////////////////////////////////////////
+
+const FisioterapiaModule = (() => {
+
+    const idInputSessao = "input-sessao-fisioterapia";
+
+    const rederizarSessoesDeFisioterapia = () => {
+
+        const sessao = criarElemento("div", { id: "sessao-fisioterapia", local: "#container-extras" });
+
+        sessao.innerHTML = `
+            <h3>Sessões de Fisioterapia</h3>
+            <div class="box-input">
+                <label for="sessao-fisioterapia">Quantidade de Sessões de Fisioterapia</label>
+                <input type="number" name="sessao-fisioterapia" id="${idInputSessao}" min="0">
+            </div>
+        `;
+    };
+
+    const extrairSessoes = () => {
+        const sessoes = parseInt(document.querySelector(`#${idInputSessao}`).value);
+        console.log(sessoes);
+        return sessoes;
+    };
+
+    rederizarSessoesDeFisioterapia();
+
+    return { extrairSessoes, };
+})();
+
+// EQUIPE E DINÂMICA DE FORMA DE PAGAMENTO ///////////////////////////////////////////////////////////////////////////////////////////////
+
+const EquipeModule = (() => {
+
+})();
