@@ -236,10 +236,12 @@ main form {
 }
 #extras #container-extras #sessao-itens #container-itens .item label {
   font-weight: bold;
+  cursor: pointer;
 }
 #extras #container-extras #sessao-itens #container-itens .item input[type="checkbox"] {
   width: 20px;
   height: 20px;
+  cursor: pointer;
 }
 #extras #container-extras #sessao-itens #container-itens .item input[type="number"] {
   width: 120px;

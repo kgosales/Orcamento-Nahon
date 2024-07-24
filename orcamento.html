@@ -189,14 +189,14 @@
                     <td class="valor" id="valorEquipeAPrazo"></td>
                 </tr>
                 <tr>
-                    <td>Extras</td>
-                    <td class="valor" id="valorFisioterapiaAVista"></td>
-                    <td class="valor" id="valorFisioterapiaAPrazo"></td>
+                    <td>Extras: <span id="extras"></span></td>
+                    <td class="valor" id="valorExtrasAVista"></td>
+                    <td class="valor" id="valorExtrasAPrazo"></td>
                 </tr>
                 <tr>
-                    <td>Fisioterapia (pré, intra e 6 sessões de pós)</td>
-                    <td class="valor" id="valorFisioterapiaAVista"></td>
-                    <td class="valor" id="valorFisioterapiaAPrazo"></td>
+                    <td>Fisioterapia (pré, intra e <span id="sessoesFisioterapia"></span> sessões de pós)</td>
+                    <td class="valor" id="valorFisioterapiaAVista">R$ 0,00</td>
+                    <td class="valor" id="valorFisioterapiaAPrazo">R$ 0,00</td>
                 </tr>
             </tbody>
             <tfoot>
@@ -248,12 +248,15 @@
         };
 
         onload = () => {
+
             const orcamento = JSON.parse(localStorage.getItem('orcamento'));
+
+            console.log(orcamento);
 
             if (orcamento) {
                 document.getElementById('nome').textContent = orcamento.paciente.nome;
 
-                const cirurgias = orcamento.cirurgias.cirurgias.map(cirurgia => cirurgia.cirurgia);
+                const cirurgias = orcamento.cirurgias.cirurgias.cirurgias.map(cirurgia => cirurgia.cirurgia);
                 const cirurgia = cirurgias.join(' + ');
                 document.getElementById('cirurgia').textContent = cirurgia;
 
@@ -265,11 +268,24 @@
                 });
                 document.getElementById('data').textContent = dataFormatada;
 
-                document.getElementById('valorHospitalAVista').textContent = formatarMoeda(orcamento.cirurgias.valorTotal);
-                document.getElementById('valorEquipeAVista').textContent = formatarMoeda(orcamento.equipe.valorTotal);
-                document.getElementById('valorTotalAVista').textContent = formatarMoeda(orcamento.valorTotal);
+                document.getElementById('valorHospitalAVista').textContent = formatarMoeda(orcamento.cirurgias.cirurgias.cirurgiaSoma);
+                
+                document.getElementById('valorEquipeAVista').textContent = formatarMoeda(orcamento.equipe.valorDaEquipe);
+                document.getElementById('valorEquipeAPrazo').textContent = formatarMoeda(orcamento.equipe.arredondado);
+                
+                const itens = orcamento.cirurgias.itens.itens.map(item => item.item);
+                const item = itens.join(' + ');
+                document.getElementById('extras').textContent = item;
 
-                window.print();
+                document.getElementById('valorExtrasAVista').textContent = formatarMoeda(orcamento.cirurgias.itens.itemSoma);
+                document.getElementById('valorExtrasAPrazo').textContent = formatarMoeda(orcamento.cirurgias.itens.itemSoma);
+
+                document.getElementById('sessoesFisioterapia').textContent = orcamento.cirurgias.sessoesFisioterapia;
+                
+                document.getElementById('valorTotalAVista').textContent = formatarMoeda(orcamento.cirurgias.cirurgias.cirurgiaSoma + orcamento.equipe.valorDaEquipe);
+                document.getElementById('valorTotalAPrazo').textContent = formatarMoeda(orcamento.cirurgias.cirurgias.cirurgiaSoma + orcamento.equipe.arredondado);
+
+                // window.print();
             } else {
                 console.error('Orçamento não encontrado no localStorage.');
             }

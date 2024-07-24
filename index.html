@@ -48,7 +48,7 @@
                 </div>
             </section>
 
-            <section class="sessao-form" id="dadosEquipe" onchange="calcularEquipe()">
+            <section class="sessao-form" id="dadosEquipe" onchange="EquipeModule.atualizarCamposEquipe()">
                 <h2>Dados da Equipe</h2>
                 <div id="inputs-equipe">
                     <div class="box-input">
@@ -91,8 +91,6 @@
             <input type="submit" class="btn" id="btn-gerar" onclick="gerarOrcamento(event)" value="Gerar Orçamento">
         </form>
 
-        <button onclick="teste()">Teste</button>
-
     </main>
 
     <footer>
@@ -101,25 +99,16 @@
 
     <script src="javascript/database.js"></script>
     <script src="javascript/scripts.js"></script>
-    <script src="javascript/interface.js"></script>
 
     <script>
-
-        const teste = () => {
-            ItensModule.extrairItens();
-            FisioterapiaModule.extrairSessoes();
-        };
-
         montarSelect("#formaPagamento", DBModule.formasPagamento, "forma", "taxa");
 
         const gerarOrcamento = (event) => {
             event.preventDefault();
 
-            const dados = obterDados();
-
-            console.log(dados);
-
+            const dados = montarOrcamento();
             localStorage.setItem('orcamento', JSON.stringify(dados));
+
             window.open('orcamento.html', '_blank');
         };
     </script>
